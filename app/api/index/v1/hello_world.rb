@@ -8,8 +8,8 @@ module Index
 			get 'welcome-greeting/:name' do
 				puts params.to_s
 				name = params[:name]
-				message = "Hello #{name}!"
-				response = {data: message, status: 200, errors: []}
+				message = "Hello #{name}! Hope you will enjoy!!!"
+				response = {data: message, status: 200}
 			end
 		end
 	end
