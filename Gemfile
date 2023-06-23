@@ -28,7 +28,7 @@ gem "ransack", "~> 3.2" # Searching and sorting
 gem "active_record_union", "~> 1.3" # Adds proper union and union_all methods to ActiveRecord::Relation
 gem "bootsnap", ">= 1.1.0", require: false # Boot large ruby/rails apps faster
 gem "devise", "~> 4.8" # Flexible authentication solution for Rails
-
+gem 'grape', '~> 1.7', '>= 1.7.1'
 group :development, :test do
   gem "better_errors", "~> 2.9" # Provides a better error page for Rails and other Rack apps
 end
