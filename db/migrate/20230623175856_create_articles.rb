@@ -9,7 +9,7 @@ class CreateArticles < ActiveRecord::Migration[7.0]
       t.datetime "last_comment_at", precision: nil, default: "2017-01-01 05:00:00"
       t.boolean "published", default: false
       t.datetime "published_at", precision: nil
-      t.boolean "show_comments", default: true
+      t.boolean "show_comments", default: false
       t.integer "author_id"
       t.timestamps
       t.index ["author_id"], name: "index_articles_on_author_id"
