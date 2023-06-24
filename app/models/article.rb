@@ -25,7 +25,7 @@ class Article < ApplicationRecord
 
 	def self.get_one_article(user, title)
 		# TODO - join comments
-		one_article = user.article.where(title: title).take
+		one_article = user.article.where(title: title, published: true).take
 		if one_article.present?
 			return {
 				"Title": one_article.title,
