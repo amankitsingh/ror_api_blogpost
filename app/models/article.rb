@@ -61,4 +61,46 @@ class Article < ApplicationRecord
 		end
 		return article_json
 	end
+
+	def self.edit_article(user, params)
+		begin
+			original_article = user.article.find_by(title: params[:original_article_title])
+			if original_article.present?
+				attribute = params[:new_article_changes]
+				attribute["edited_at"] = Time.now
+				if params[:new_article_changes][:published].present? and params[:new_article_changes][:published]
+					attribute["published_at"] = Time.now
+				else
+					attribute["published_at"] = nil
+				end
+				status = original_article.update!(attribute)
+				author_name = "#{user.first_name} #{user.last_name}"
+				if status
+					article = [original_article.reload]
+					return self.create_article_response(article, author_name)
+				end
+			else
+				{error: 'No Article Found', status: 404}
+			end 
+		rescue => e
+			message = e.message.to_s
+			return {error: message, status: 400}
+		end
+	end
+	
+
+	def self.delete_article(user, title)
+		begin
+			status = user.article.find_by(title: title)
+			if status.present?
+				status.delete
+				{message: "Article deleted", status: 202}
+			else
+				{error: 'No Article Found', status: 404}
+			end
+		rescue => e
+			message = e.message.to_s
+			return {error: message, status: 400}
+		end
+	end
 end
