@@ -3,7 +3,7 @@ module Index
   	format :json
     
     before do
-      next if ["/api/user/create"].include? request.path
+      next if ["/api/user/create", "/api/user/recover"].include? request.path
       @user = ApiSecret.authenticate_with_api_key!(request)
       unless @user
         error = {

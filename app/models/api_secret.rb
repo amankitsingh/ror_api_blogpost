@@ -1,19 +1,18 @@
 class ApiSecret < ApplicationRecord
 
-	has_one :user, foreign_key: "id"
-
+	belongs_to :user 
 	# @note This method is performing both authentication and authorization.  The user suspended
 	# should be something added to the corresponding pundit policy.
 	def self.authenticate_with_api_key!(request)
-		user ||= authenticate_with_api_key(request)
+		user = authenticate_with_api_key(request)
 		return false unless user.present?
-		return false if user.suspended?
+		return false unless user.active?
 
 		user
 	end
 	
 	def self.authenticate_with_api_key(request)
-		api_key = request.headers["Secret"]
+		api_key = request.headers["Secret"].downcase
 		return unless api_key
 
 		api_secret = ApiSecret.includes(:user).find_by(secret: api_key)

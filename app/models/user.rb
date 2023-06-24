@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
 
-	has_many :api_secrets, foreign_key: "user_id", dependent: :delete_all
+	has_many :api_secrets, dependent: :delete_all
 
 	enum role: {
 		'Admin': 1,
@@ -18,7 +18,7 @@ class User < ApplicationRecord
 	validates_format_of :first_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
 	validates_format_of :last_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
 	validates_format_of :email, with: /\A[[:alnum:]]+([a-zA-Z0-9\.\-\+\_\%]+)?[a-zA-Z0-9]+@[[:alnum:]]+[\-]?[a-z\d]+(\.[a-z\d\-]+)*\.[a-zA-Z]+\z/i, on: :create, message: "is invalid"
-
+	
 	after_create :send_confirmation_email
 
 	def send_confirmation_email
@@ -32,9 +32,9 @@ class User < ApplicationRecord
 	end
 
 	def self.create_user(params)
-		firstname = params[:firstname]
-		lastname = params[:lastname]
-		email = params[:email]
+		firstname = params[:firstname].downcase
+		lastname = params[:lastname].downcase
+		email = params[:email].downcase
 		begin
 			user = User.create!(first_name: firstname, last_name: lastname, email: email, encrypted_password: SecureRandom.hex(10), role: "User")
 			if user
@@ -50,6 +50,44 @@ class User < ApplicationRecord
 		{
 			"User_details": user
 		}
+	end
+
+	def self.confirm_user(confirm_id, present_user)
+		if confirm_id == present_user.id
+			if !present_user.active? and !present_user.suspended?
+				present_user.active! 
+				return {message: "User activated", status: 200}
+			elsif present_user.active?
+				return {message: "User already active", status: 200}
+			elsif present_user.suspended?
+				return {message: "User is suspended, contact admin", status: 200}
+			end
+		else
+			{error: 'User not found', status: 400}
+		end
+	end
+
+	def self.recover_user(params)
+		first_name = params[:name].downcase
+		email = params[:email].downcase
+		last_remembered_api_key = params[:last_remembered_api_key].downcase
+		user = User.where("first_name LIKE ?", "%#{first_name}%").where(email: email)
+		
+		if user.present?
+			return {"User_details": user}
+		else
+			api_secret = ApiSecret.find_by(secret: last_remembered_api_key)
+			if api_secret.present?
+				if api_secret.user.email == email && [first_name].include?(api_secret.user.first_name)
+					return {"User_details": api_secret.user}
+				else
+					return {error: 'User not found', status: 400}
+				end
+			else
+				return {error: 'User not found', status: 400}
+			end
+		end
+
 	end
 	
 end
