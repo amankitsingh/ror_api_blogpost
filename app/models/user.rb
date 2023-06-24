@@ -22,7 +22,7 @@ class User < ApplicationRecord
 	after_create :send_confirmation_email
 
 	def send_confirmation_email
-		ConfirmationMailer.welcome_email(user,api_secret).deliver_later
+		ConfirmationMailer.welcome_email(user,api_secret).deliver_later(wait: 5.seconds)
 	end
 
 	def self.get_user_details(id)
