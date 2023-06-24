@@ -14,7 +14,26 @@ class Article < ApplicationRecord
 			author_name = "#{user.first_name} #{user.last_name}"
 			return self.create_article_response(art, author_name)
 		rescue => e
-			return {error: e.message.to_s, status: 400}
+			if e.message.include? "duplicate"
+				message = "Article already exist!!"
+			else
+				message = e.message.to_s
+			end
+			return {error: message, status: 400}
+		end
+	end
+
+	def self.get_one_article(user, title)
+		# TODO - join comments
+		one_article = user.article.where(title: title).take
+		if one_article.present?
+			return {
+				"Title": one_article.title,
+				"Description": one_article.description,
+				"Comments": {}
+			}
+		else
+			{error: 'Not Articles Found', status: 400}
 		end
 	end
 

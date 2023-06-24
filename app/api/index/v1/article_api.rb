@@ -22,6 +22,16 @@ module Index
 				status obj[:status]
 				body obj
 			end
+
+			desc 'get the user details'
+			params do
+				requires :title, type: String
+			end
+			get 'article/:title' do
+				obj = Article.get_one_article(@user, params[:title])				
+				status obj[:status]
+				body obj
+			end
 		end
 	end
 end
