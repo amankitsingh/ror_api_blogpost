@@ -23,6 +23,3 @@ Things you may want to cover:
 
 * ...
 
-export PATH="$HOME/.rbenv/bin:/usr/local/bin:$PATH"
-
-eval "$(rbenv init -)"

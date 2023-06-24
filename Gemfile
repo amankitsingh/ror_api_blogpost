@@ -11,7 +11,6 @@ gem "pghero", "~> 3.1" # Dashboard for Postgres
 gem "puma", "~> 5.6.4" # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server
 gem "redis", "~> 4.7.1" # Redis ruby client , Use Redis adapter to run Action Cable in production
 gem "redis-actionpack", "~> 5.3.0" # Redis session store for ActionPack. Used for storing the Rails session in Redis.
-gem "rolify", "~> 6.0" # Very simple Roles library
 gem "sidekiq", "~> 6.5.3" # Sidekiq is used to process background jobs with the help of Redis
 gem "strong_migrations", "~> 1.2" # Catch unsafe migrations
 gem "warning", "~> 1.3" # Adds custom processing for warnings, including the ability to ignore specific warning messages
@@ -36,7 +35,7 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem "debug", ">= 1.0.0" # Provide a debug with step capabilities
+  gem "byebug", ">= 1.0.0" # Provide a debug with step capabilities
   gem "dotenv-rails", "~> 2.8.1" # For loading ENV variables locally
   gem "faker", "~> 2.22" # A library for generating fake data such as names, addresses, and phone numbers
   gem "pry", "~> 0.14" # An IRB alternative and runtime developer console

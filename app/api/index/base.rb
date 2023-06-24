@@ -1,12 +1,20 @@
 module Index
   class Base < Grape::API
   	format :json
-    mount Index::V1::HelloWorld
-
+    
     before do
-     #validate api key
-    end
-
+      unless ApiSecret.authenticate_with_api_key!(request)
+        error = {
+          error: {
+            message: "Unauthorized",
+            type: "invalid_request_error"
+          }
+        }
+        error!(error, 401)
+      end
+    end    
+    
+    mount Index::V1::HelloWorld
 
     get '/:invalid_resource' do
       error = {

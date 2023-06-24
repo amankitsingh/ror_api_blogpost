@@ -1,11 +1,11 @@
 module Index
 	module V1
-		class HelloWorld < Base
+		class User < Base
 			version 'api', using: :path
 			format :json
 			
-			desc 'Hello World'
-			get 'welcome-greeting/:name' do
+			desc 'get the user details'
+			get 'user/:name' do
 				puts params.to_s
 				name = params[:name]
 				message = "Hello #{name}! Hope you will enjoy!!!"
