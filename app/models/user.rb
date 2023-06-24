@@ -14,4 +14,11 @@ class User < ApplicationRecord
 		'suspended': 3
 	}
 
+	def self.get_user_details(id)
+		user =  User.where(id: id)
+		return user.take if user.present?
+		{error: 'Not Found', status: 400}
+	end
+
+	
 end

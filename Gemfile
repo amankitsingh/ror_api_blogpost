@@ -38,7 +38,5 @@ group :development do
   gem "byebug", ">= 1.0.0" # Provide a debug with step capabilities
   gem "dotenv-rails", "~> 2.8.1" # For loading ENV variables locally
   gem "faker", "~> 2.22" # A library for generating fake data such as names, addresses, and phone numbers
-  gem "pry", "~> 0.14" # An IRB alternative and runtime developer console
-  gem "pry-rails", "~> 0.3" # Use Pry as your rails console
 end
 

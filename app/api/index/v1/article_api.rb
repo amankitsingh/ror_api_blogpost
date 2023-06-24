@@ -1,11 +1,11 @@
 module Index
 	module V1
-		class Article < Base
+		class ArticleApi < Base
 			version 'api', using: :path
 			format :json
 			
 			desc 'get the user details'
-			get 'user/:name' do
+			get 'artcile/:name' do
 				puts params.to_s
 				name = params[:name]
 				message = "Hello #{name}! Hope you will enjoy!!!"
