@@ -10,6 +10,18 @@ module Index
 				status obj[:status]
 				body obj
 			end
+
+			desc "create new article"
+			params do
+				requires :title, type: String
+				requires :description, type: String
+				optional :publish, type: Boolean
+			end
+			post 'article/create' do
+				obj = Article.create_article(@user, params)
+				status obj[:status]
+				body obj
+			end
 		end
 	end
 end
