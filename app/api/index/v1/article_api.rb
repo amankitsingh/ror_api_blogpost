@@ -5,11 +5,10 @@ module Index
 			format :json
 			
 			desc 'get the user details'
-			get 'artcile/:name' do
-				puts params.to_s
-				name = params[:name]
-				message = "Hello #{name}! Hope you will enjoy!!!"
-				response = {data: message, status: 200}
+			get 'articles' do
+				obj = Article.get_all_articles(@user)				
+				status obj[:status]
+				body obj
 			end
 		end
 	end
