@@ -22,7 +22,7 @@ class User < ApplicationRecord
 	after_create :send_confirmation_email
 
 	def send_confirmation_email
-		ConfirmationMailer.welcome_email(user,api_secret).deliver_later(wait: 5.seconds)
+		ConfirmationMailer.welcome_email(self).deliver_later(wait: 5.seconds)
 	end
 
 	def self.get_user_details(id)
@@ -40,7 +40,7 @@ class User < ApplicationRecord
 			if user
 				api_secret = ApiSecret.create!(secret: SecureRandom.hex, description: Faker::Markdown.emphasis, user_id: user.id)
 			end
-		rescue ActiveRecord::RecordInvalid => e
+		rescue => e
 			return {error: e.message.to_s, status: 400}
 		end
 		return searialized_response(user,api_secret)

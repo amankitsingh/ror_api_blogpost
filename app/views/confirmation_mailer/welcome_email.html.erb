@@ -1,0 +1,5 @@
+<div>
+	<p> Welcome <%= @user.first_name %> <%= @user.last_name %> to Index Website</p>
+	<p> Your Api key is <%= @user.api_secrets.last.secret %></p>
+	<p> Api description is <%= @user.api_secrets.last.description %></p>
+</div>
