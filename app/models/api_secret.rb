@@ -6,7 +6,8 @@ class ApiSecret < ApplicationRecord
 	def self.authenticate_with_api_key!(request)
 		user = authenticate_with_api_key(request)
 		return false unless user.present?
-		return false unless user.active?
+		return user if request.path.include? "confirm"
+		return false unless user.active? 
 
 		user
 	end
