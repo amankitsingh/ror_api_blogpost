@@ -1,4 +1,5 @@
 class Article < ApplicationRecord
+	include PgSearch::Model
 	has_paper_trail
 
 	belongs_to :user
@@ -6,7 +7,13 @@ class Article < ApplicationRecord
 	belongs_to :category
   has_many :article_tags
   has_many :tags, through: :article_tags
-	
+
+	pg_search_scope :search_articles,
+                  against: [:title, :created_at],
+									using: {
+										tsearch: { prefix: true }
+									}
+
 	def self.create_article(user, params)
 		params[:published] = params[:publish]
 		params.delete(:publish)
@@ -53,6 +60,7 @@ class Article < ApplicationRecord
 	def self.create_article_response(articles, author_name)
 		article_json = {}
 		articles.each_with_index do |article, index|
+			author_name = "#{article.user.first_name} #{article.user.last_name}" unless author_name.present?
 			article_json[index+1] = {
 				"Title": article.title,
 				"Description": article.description,
@@ -89,6 +97,38 @@ class Article < ApplicationRecord
 			message = e.message.to_s
 			return {error: message, status: 400}
 		end
+	end
+
+	def self.search_article(params)
+		begin
+			page = params[:page].present? ? params[:page].to_i : 1
+			per_page = params[:per_page].present? ? params[:page].to_i : 10
+			searchtext = params[:searchtext]
+			article = Article.search_articles(searchtext)
+			if article.present?
+				return self.paginated_response(article, page, per_page)
+			else
+				category =  Category.search_category(searchtext).last
+				if category.present?
+					return self.paginated_response(category.articles, page, per_page)
+				else
+					tag = Tag.search_tag(searchtext).last
+					if tag.present?
+						return self.paginated_response(tag.articles, page, per_page)
+					else
+						{error: 'No Article Found', status: 404}
+					end
+				end
+				{error: 'No Article Found', status: 404}
+			end
+		rescue => e
+			message = e.message.to_s
+			return {error: message, status: 400}
+		end
+	end
+
+	def self.paginated_response(article, page, per_page)
+		create_article_response(article.page(page).per(per_page), nil)
 	end
 	
 

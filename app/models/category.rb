@@ -1,9 +1,16 @@
 class Category < ApplicationRecord
+  include PgSearch::Model
+
 	has_many :categorizations
   has_many :articles
   has_many :tags
 
-
+  pg_search_scope :search_category,
+                  against: :name,
+									using: {
+										tsearch: { prefix: true }
+									}
+  
   def self.view_all_category
     category = Category.all.pluck(:name)
     {

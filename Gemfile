@@ -26,6 +26,9 @@ gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compa
 gem "bootsnap", ">= 1.1.0", require: false # Boot large ruby/rails apps faster
 gem 'grape', '~> 1.7', '>= 1.7.1' # Api for rails
 gem 'paper_trail' # store audit
+
+gem 'kaminari' #pagination
+
 group :development, :test do
   gem "better_errors", "~> 2.9" # Provides a better error page for Rails and other Rack apps
 end

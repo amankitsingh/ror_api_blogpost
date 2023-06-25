@@ -20,6 +20,8 @@ module Index
 			desc 'get all comment on all the article'
 			params do
 				optional :title, type: String
+				optional :per, type: Integer
+				optional :page, type: Integer
 			end
 			get 'comment/view' do
 				puts params.to_s

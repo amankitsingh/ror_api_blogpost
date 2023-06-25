@@ -3,6 +3,18 @@ module Index
 		class ArticleApi < Base
 			version 'api', using: :path
 			format :json
+
+			desc 'search article'
+			params do
+				requires :searchtext, type: String
+				optional :per, type: Integer
+				optional :page, type: Integer
+			end
+			get 'articles/search' do
+				obj = Article.search_article(params)				
+				status obj[:status]
+				body obj
+			end
 			
 			desc 'get the all article details'
 			get 'articles' do

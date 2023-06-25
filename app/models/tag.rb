@@ -1,8 +1,15 @@
 class Tag < ApplicationRecord
-	belongs_to :category
+	include PgSearch::Model
+
+  belongs_to :category
   has_many :article_tags
   has_many :articles, through: :article_tags
 
+  pg_search_scope :search_tag,
+                  against: :name,
+									using: {
+										tsearch: { prefix: true }
+									}
 
   def self.get_all_tags
     tags = Tag.includes(:articles).all
