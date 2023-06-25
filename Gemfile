@@ -5,9 +5,7 @@ ruby "3.0.2"
 
 gem "rails", "~> 7.0.4", ">= 7.0.4.1"
 gem "pg", "~> 1.4" # Pg is the Ruby interface to the PostgreSQL RDBMS
-gem "pg_query", ">= 0.9.0" # Allows PGHero to analyze queries
 gem "pg_search", "~> 2.3.6" # PgSearch builds Active Record named scopes that take advantage of PostgreSQL's full text search
-gem "pghero", "~> 3.1" # Dashboard for Postgres
 gem "puma", "~> 5.6.4" # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server
 gem "redis", "~> 4.7.1" # Redis ruby client , Use Redis adapter to run Action Cable in production
 gem "redis-actionpack", "~> 5.3.0" # Redis session store for ActionPack. Used for storing the Rails session in Redis.
@@ -23,7 +21,6 @@ gem "bootsnap", ">= 1.1.0", require: false # Boot large ruby/rails apps faster
 gem 'grape', '~> 1.7', '>= 1.7.1' # Api for rails
 gem 'paper_trail' # store audit
 gem 'aws-sdk-s3', '~> 1.126' #amazon s3 sdk
-
 gem 'kaminari' #pagination
 
 group :development, :test do

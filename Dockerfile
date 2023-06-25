@@ -18,7 +18,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # Install the project dependencies
-RUN bundle install
+RUN bundle check || bundle install 
 
 # Copy the entire project directory to the container
 COPY . .

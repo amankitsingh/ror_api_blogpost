@@ -1,18 +1,18 @@
 version: '3.9'
 services:
-  # app: 
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   depends_on:
-  #     - db
-  #     - redis
-  #   ports: 
-  #     - "3000:3000"
-  #   volumes:
-  #     - .:/app
-  #   environment:
-  #     RAILS_ENV: development
+  app: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - database
+      - redis
+    ports: 
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      RAILS_ENV: development
 
   redis:
     image: redis:latest
@@ -21,15 +21,17 @@ services:
     volumes:
       - redis_data:/data
   
-  db:
+  database:
     image: postgres:latest
     restart: always
     environment:
       POSTGRES_USER: index_development
       POSTGRES_PASSWORD: CiYQ0gzWnPNgihjwj4t
-      POSTGRES_DB: index_development
+      POSTGRES_DB: rails_development
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   redis_data:
+  db_data:
