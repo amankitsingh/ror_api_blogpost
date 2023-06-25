@@ -32,11 +32,11 @@ module Index
 
 			desc "attach avatar to user"
 			params do
-				requires :avatar, type: String
+				requires :avatar, type: File
 			end
 			post 'user/avatar' do
 				puts params.to_s
-				obj = User.attach_avatar(user, params)
+				obj = User.attach_avatar(@user, params)
 				if obj.class == Hash
 					status 200
 					body obj

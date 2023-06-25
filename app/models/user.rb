@@ -137,7 +137,7 @@ class User < ApplicationRecord
 		end
 	end
 
-	def self.admin_activate_user(user, params)
+	def self.attach_avatar(user, params)
 		begin
 			if user.avatar.attached?
 				user.avatar.purge

@@ -15,7 +15,7 @@ gem "sidekiq", "~> 6.5.3" # Sidekiq is used to process background jobs with the 
 # gem "strong_migrations", "~> 1.2" # Catch unsafe migrations - optional
 gem "warning", "~> 1.3" # Adds custom processing for warnings, including the ability to ignore specific warning messages
 # gem "s3_direct_upload", "~> 0.1" # Direct Upload to Amazon S3
-# gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "fog-aws", "~> 3.14" # 'fog' gem to support Amazon Web Services
 gem "fastly", "~> 3.0" # Client library for the Fastly acceleration system
 # gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
