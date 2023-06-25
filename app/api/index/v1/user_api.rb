@@ -34,7 +34,7 @@ module Index
 			params do
 				requires :avatar, type: String
 			end
-			post 'user/new/avatar' do
+			post 'user/avatar' do
 				puts params.to_s
 				obj = User.attach_avatar(user, params)
 				if obj.class == Hash

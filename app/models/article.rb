@@ -8,6 +8,8 @@ class Article < ApplicationRecord
   has_many :article_tags
   has_many :tags, through: :article_tags
 
+	has_one_attached :cover
+
 	pg_search_scope :search_articles,
                   against: [:title, :created_at],
 									using: {
@@ -181,5 +183,29 @@ class Article < ApplicationRecord
 			{error: message, status: 404}
 		end
   end
+
+	def self.attach_cover(user, params)
+		article_title = params[:article_title]
+		article_cover = params[:cover]
+		begin
+			article = Article.find_by(title: article_title)
+			if article.present?
+				if article.cover.attached?
+					article.cover.purge
+					article.cover.attach(article_cover)
+					{message: "Article cover replaced", status: 202}
+				else
+					article.cover.attach(article_cover)
+					{message: "Article cover attached", status: 202}
+				end
+			else
+				{error: 'No Article Found', status: 404}
+			end
+		rescue => e
+			message = e.message.to_s
+			{error: message, status: 404}
+		end
+	end
+	
 
 end
