@@ -30,6 +30,22 @@ module Index
 				end
 			end
 
+			desc "attach avatar to user"
+			params do
+				requires :avatar, type: String
+			end
+			post 'user/new/avatar' do
+				puts params.to_s
+				obj = User.attach_avatar(user, params)
+				if obj.class == Hash
+					status 200
+					body obj
+				else
+					status 400
+					body obj
+				end
+			end
+
 			desc "confirm the user"
 			params do
 				requires :id, type: Integer

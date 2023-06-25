@@ -4,6 +4,13 @@ class User < ApplicationRecord
 	has_many :api_secrets, dependent: :delete_all
 	has_many :article, dependent: :delete_all
 	has_many :comments, dependent: :delete_all
+	has_one_attached :avatar
+
+	validates_format_of :first_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
+	validates_format_of :last_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
+	validates_format_of :email, with: /\A[[:alnum:]]+([a-zA-Z0-9\.\-\+\_\%]+)?[a-zA-Z0-9]+@[[:alnum:]]+[\-]?[a-z\d]+(\.[a-z\d\-]+)*\.[a-zA-Z]+\z/i, on: :create, message: "is invalid"
+	
+	after_create :send_confirmation_email
 
 	enum role: {
 		'Admin': 1,
@@ -15,13 +22,6 @@ class User < ApplicationRecord
 		'active': 2,
 		'suspended': 3
 	}
-
-
-	validates_format_of :first_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
-	validates_format_of :last_name, with: /\A[\w\s]+\z/, on: :create, message: "is invalid"
-	validates_format_of :email, with: /\A[[:alnum:]]+([a-zA-Z0-9\.\-\+\_\%]+)?[a-zA-Z0-9]+@[[:alnum:]]+[\-]?[a-z\d]+(\.[a-z\d\-]+)*\.[a-zA-Z]+\z/i, on: :create, message: "is invalid"
-	
-	after_create :send_confirmation_email
 
 	def send_confirmation_email
 		ConfirmationMailer.welcome_email(self).deliver_later(wait: 5.seconds)
@@ -134,6 +134,21 @@ class User < ApplicationRecord
 			end
 		else
 			return {error: 'uncharted territory', status: 400}
+		end
+	end
+
+	def self.admin_activate_user(user, params)
+		begin
+			if user.avatar.attached?
+				user.avatar.purge
+				user.avatar.attach(params[:avatar])
+				return {message: 'Avatar has been replaced', status: 200}
+			else
+				user.avatar.attach(params[:avatar])
+				return {message: 'Avatar has been attached', status: 200}
+			end
+		rescue => e
+			return {error: 'there is some issue attaching', status: 400}
 		end
 	end
 	
