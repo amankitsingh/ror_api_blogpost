@@ -31,20 +31,43 @@ class Comment < ApplicationRecord
 	def self.view_all_comments(user, params)
 		article = 
 		if params[:title].present?
-			Article.includes(comment: :user).where(title: params[:title]).order("comment.comment_score desc")
+			Article.includes(:comments, :user).where(title: params[:title]).order("comments.comment_score desc")
 		else
-			Article.includes(comment: :user).order("comment.comment_score desc")
+			Article.includes(:comments, :user).order("comments.comment_score desc")
 		end
 		if article.present?
 			result = {}
 			article.each_with_index do |article, index|
-				result[article.title] = article.comment.value
+				article_comment = {}
+				article.comments.each_with_index do |comment, index|
+					article_comment["#{comment.user.first_name} #{comment.user.last_name}"] = { comment.value => comment.comment_score } 
+				end
+				result[article.title] = article_comment
 			end 
 			return result
 		else
 			{data: 'No comments found', status: 400}
 		end
 	end
+
+	def self.rate_article(user, params)
+		begin
+			article = Article.includes(comment: :user).where(title: params[:title])
+			if article.present?
+				if article.comment.present?
+					{error: 'You have already rated this article', status: 400}
+				else
+					
+				end
+			else
+				{error: 'Not Article Found', status: 400}
+			end		
+		rescue => e
+			message = e.message.to_s
+			return {error: message, status: 400}
+		end
+	end
+	
 	
 
 	def self.searialized_response(article, comment)

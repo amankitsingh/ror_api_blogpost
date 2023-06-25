@@ -40,6 +40,20 @@ module Index
 				obj.delete(:status)
 				body obj
 			end
+
+			desc 'rate new a article'
+			params do
+				requires :title, type: String
+				requires :rating, type: String
+			end
+			post 'comment/rate' do
+				puts params.to_s
+				obj = Comment.rate_article(@user, params)
+				status obj[:status]
+				obj.delete(:status)
+				body obj
+			end
+
 		end
 	end
 end
