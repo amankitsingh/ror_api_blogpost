@@ -14,18 +14,15 @@ gem "redis-actionpack", "~> 5.3.0" # Redis session store for ActionPack. Used fo
 gem "sidekiq", "~> 6.5.3" # Sidekiq is used to process background jobs with the help of Redis
 # gem "strong_migrations", "~> 1.2" # Catch unsafe migrations - optional
 gem "warning", "~> 1.3" # Adds custom processing for warnings, including the ability to ignore specific warning messages
-# gem "s3_direct_upload", "~> 0.1" # Direct Upload to Amazon S3
 gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "fog-aws", "~> 3.14" # 'fog' gem to support Amazon Web Services
 gem "fastly", "~> 3.0" # Client library for the Fastly acceleration system
-# gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
 gem "rack-timeout", "~> 0.6" # Rack middleware which aborts requests that have been running for longer than a specified timeout
 gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
-# gem "ransack", "~> 3.2" # Searching and sorting
-# gem "active_record_union", "~> 1.3" # Adds proper union and union_all methods to ActiveRecord::Relation
 gem "bootsnap", ">= 1.1.0", require: false # Boot large ruby/rails apps faster
 gem 'grape', '~> 1.7', '>= 1.7.1' # Api for rails
 gem 'paper_trail' # store audit
+gem 'aws-sdk-s3', '~> 1.126' #amazon s3 sdk
 
 gem 'kaminari' #pagination
 
