@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_24_164636) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_071547) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,7 +27,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_164636) do
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.integer "comment_score", default: 0
     t.integer "comments_count", default: 0, null: false
     t.datetime "edited_at", precision: nil
     t.datetime "last_comment_at", precision: nil, default: "2017-01-01 05:00:00"
@@ -51,10 +50,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_24_164636) do
 
   create_table "comments", force: :cascade do |t|
     t.text "value"
-    t.integer "author_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.integer "comment_score", default: 0
+    t.integer "article_id", default: 0
+    t.index ["article_id"], name: "index_comments_on_article_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
