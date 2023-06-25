@@ -44,6 +44,7 @@ module Index
 			desc 'rate new a article'
 			params do
 				requires :title, type: String
+				requires :comment_author, type: String
 				requires :rating, type: String
 			end
 			post 'comment/rate' do

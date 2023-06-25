@@ -50,14 +50,19 @@ class Comment < ApplicationRecord
 		end
 	end
 
+	# improvement artile rating per user only once
 	def self.rate_article(user, params)
+		title = params[:title]
+		comment_author = params[:comment_author]
+		rating = params[:rating] == "good" ? 1 : -1
 		begin
-			article = Article.includes(comment: :user).where(title: params[:title])
+			article = Article.joins(:comments, :user).where(title: title).where("users.first_name = ?", comment_author.split(" ").first).take
 			if article.present?
-				if article.comment.present?
-					{error: 'You have already rated this article', status: 400}
+				if article.comments.present?
+					article.comments.last.update(comment_score: article.comments.last.comment_score + rating)
+					return view_all_comments(article.user, params)
 				else
-					
+					{error: 'You have already rated this article', status: 400}
 				end
 			else
 				{error: 'Not Article Found', status: 400}
