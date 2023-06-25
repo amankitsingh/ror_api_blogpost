@@ -5,7 +5,7 @@ module Index
 			format :json
 			
 			desc 'get the user details'
-			get 'comment/:name' do
+			get 'comment/create' do
 				puts params.to_s
 				name = params[:name]
 				message = "Hello #{name}! Hope you will enjoy!!!"

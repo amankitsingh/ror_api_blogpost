@@ -27,7 +27,7 @@ module Index
 			params do
 				requires :title, type: String
 			end
-			get 'article/:title' do
+			post 'article' do
 				obj = Article.get_one_article(@user, params[:title])				
 				status obj[:status]
 				body obj
