@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
 	has_many :api_secrets, dependent: :delete_all
 	has_many :article, dependent: :delete_all
+	has_many :comments, dependent: :delete_all
 
 	enum role: {
 		'Admin': 1,

@@ -1,7 +1,8 @@
 class Article < ApplicationRecord
+	
 	belongs_to :user
-
-
+	has_one :comment
+	
 	def self.create_article(user, params)
 		title = params[:title]
 		description = params[:description]
