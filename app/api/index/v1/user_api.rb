@@ -64,6 +64,54 @@ module Index
 				end
 			end
 
+			desc "admin ban the user"
+			params do
+				requires :id, type: Integer
+			end
+			get 'admin/user/ban/:id' do
+				puts params.to_s
+				obj = User.admin_ban_user(@user,	params[:id])
+				if obj.class == Hash
+					status 200
+					body obj
+				else
+					status 400
+					body obj
+				end
+			end
+
+			desc "admin status the user"
+			params do
+				requires :id, type: Integer
+			end
+			get 'admin/user/status/:id' do
+				puts params.to_s
+				obj = User.admin_status_user(@user,	params[:id])
+				if obj.class == Hash
+					status 200
+					body obj
+				else
+					status 400
+					body obj
+				end
+			end
+
+			desc "admin activate the user"
+			params do
+				requires :id, type: Integer
+			end
+			get 'admin/user/activate/:id' do
+				puts params.to_s
+				obj = User.admin_activate_user(@user,	params[:id])
+				if obj.class == Hash
+					status 200
+					body obj
+				else
+					status 400
+					body obj
+				end
+			end
+
 		end
 	end
 end

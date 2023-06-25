@@ -91,5 +91,50 @@ class User < ApplicationRecord
 		end
 
 	end
+
+	def self.admin_ban_user(user, ban_id)
+		if user.Admin?
+			user = User.find(ban_id)
+			if user.present?
+				user.suspended!
+			else
+				return {error: 'User not found', status: 400}
+			end
+			return searialized_response(user,nil)
+		else
+			return {error: 'uncharted territory', status: 400}
+		end
+	end
+
+	def self.admin_status_user(user, status_id)
+		if user.Admin?
+			user = User.find(status_id)
+			if user.present?
+				return searialized_response(user,nil)
+			else
+				return {error: 'User not found', status: 400}
+			end
+		else
+			return {error: 'uncharted territory', status: 400}
+		end
+	end
+
+	def self.admin_activate_user(user, activete_id)
+		if user.Admin?
+			user = User.find(activete_id)
+			if user.present?
+				if user.active?
+					return {error: 'User already active', status: 400}
+				else
+					user.active!
+					return searialized_response(user,nil)
+				end
+			else
+				return {error: 'User not found', status: 400}
+			end
+		else
+			return {error: 'uncharted territory', status: 400}
+		end
+	end
 	
 end
