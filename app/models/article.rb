@@ -1,5 +1,6 @@
 class Article < ApplicationRecord
-	
+	has_paper_trail
+
 	belongs_to :user
 	has_many :comments
 	belongs_to :category
@@ -7,14 +8,12 @@ class Article < ApplicationRecord
   has_many :tags, through: :article_tags
 	
 	def self.create_article(user, params)
-		title = params[:title]
-		description = params[:description]
-		published = params[:publish]
-
+		params[:published] = params[:publish]
+		params.delete(:publish)
+		params[:category] = Category.find_by(name: params[:category])
+		params[:user_id] = user.id
 		begin
-			if title.present? and description.present?
-				art = [Article.create!(title: title, description: description, published: published, user_id: user.id)]
-			end
+			art = [Article.create!(params)]
 			author_name = "#{user.first_name} #{user.last_name}"
 			return self.create_article_response(art, author_name)
 		rescue => e
@@ -107,4 +106,40 @@ class Article < ApplicationRecord
 			return {error: message, status: 400}
 		end
 	end
+
+	def self.rollback_to(user, params)
+		article_title = params[:article_title]
+		step_of_rollback = params[:step_of_rollback]
+		begin
+			article = Article.find_by(title: article_title)
+			if article.present?
+				last_version = 
+				case step_of_rollback
+				when 1
+					article.versions.last
+				when 2
+					article.versions.second					
+				else
+					article.versions.third					
+				end
+				# Rollback the article to the last version
+				if last_version.present?
+					rolled_back_article = last_version.reify
+					if rolled_back_article.save
+						self.create_article_response([rolled_back_article], rolled_back_article.user.first_name)
+					else
+						{error: 'No Article Found', status: 404}
+					end
+				else
+					{error: 'No Article has no versions', status: 404}
+				end
+			else
+				{error: 'No Article Found', status: 404}
+			end
+		rescue => e
+			message = e.message.to_s
+			{error: message, status: 404}
+		end
+  end
+
 end

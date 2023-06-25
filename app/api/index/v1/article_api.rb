@@ -53,6 +53,18 @@ module Index
 				status obj[:status]
 				body obj
 			end
+
+			desc 'rollback the article'
+			params do
+				requires :article_title, type: String
+				requires :step_of_rollback, type: Integer
+			end
+			post 'article/rollback' do
+				obj = Article.rollback_to(@user, params)				
+				status obj[:status]
+				body obj
+			end
+
 		end
 	end
 end

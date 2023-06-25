@@ -18,12 +18,14 @@ gem "warning", "~> 1.3" # Adds custom processing for warnings, including the abi
 # gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "fog-aws", "~> 3.14" # 'fog' gem to support Amazon Web Services
 gem "fastly", "~> 3.0" # Client library for the Fastly acceleration system
-gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
+# gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
 gem "rack-timeout", "~> 0.6" # Rack middleware which aborts requests that have been running for longer than a specified timeout
-gem "ransack", "~> 3.2" # Searching and sorting
-gem "active_record_union", "~> 1.3" # Adds proper union and union_all methods to ActiveRecord::Relation
+gem "rack-cors", "~> 1.1" # Middleware that will make Rack-based apps CORS compatible
+# gem "ransack", "~> 3.2" # Searching and sorting
+# gem "active_record_union", "~> 1.3" # Adds proper union and union_all methods to ActiveRecord::Relation
 gem "bootsnap", ">= 1.1.0", require: false # Boot large ruby/rails apps faster
-gem 'grape', '~> 1.7', '>= 1.7.1'
+gem 'grape', '~> 1.7', '>= 1.7.1' # Api for rails
+gem 'paper_trail' # store audit
 group :development, :test do
   gem "better_errors", "~> 2.9" # Provides a better error page for Rails and other Rack apps
 end
