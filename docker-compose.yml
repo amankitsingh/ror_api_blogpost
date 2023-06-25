@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  # app: 
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   ports: 
+  #     - "3000:3000"
+  #   volumes:
+  #     - .:/app
+  #   environment:
+  #     RAILS_ENV: development
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+  
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: index_development
+      POSTGRES_PASSWORD: CiYQ0gzWnPNgihjwj4t
+      POSTGRES_DB: index_development
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+
+volumes:
+  redis_data:

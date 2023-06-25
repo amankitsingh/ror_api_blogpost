@@ -37,13 +37,9 @@ module Index
 			post 'user/avatar' do
 				puts params.to_s
 				obj = User.attach_avatar(@user, params)
-				if obj.class == Hash
-					status 200
-					body obj
-				else
-					status 400
-					body obj
-				end
+				status obj[:status]
+				obj.delete(:status)
+				body obj
 			end
 
 			desc "confirm the user"

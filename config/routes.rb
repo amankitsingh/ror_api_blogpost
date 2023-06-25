@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   root "welcome#show"
   
-  mount Sidekiq::Web => '/sidekiq'
+  mount Sidekiq::Web => "/sidekiq"
 
   mount Index::Base => "/"
   

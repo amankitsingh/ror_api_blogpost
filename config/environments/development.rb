@@ -20,7 +20,8 @@ Rails.application.configure do
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
-    config.cache_store = :memory_store
+    config.cache_store = :redis_cache_store, { url: ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } }
+
     config.public_file_server.headers = {
       "Cache-Control" => "public, max-age=#{2.days.to_i}"
     }
@@ -42,12 +43,23 @@ Rails.application.configure do
   #   enable_starttls_auto: true
   # }
 
+  # Please run mailcatcher gem on your local
+  config.action_mailer.smtp_settings = {
+    address: ENV['MAILCATCHER'] || "localhost",
+    port: ENV['MAILCATCHER_SMTP_PORT'] || 1025,
+  }
+
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_options = {from: 'no-reply@index.com', reply_to: 'no-reply@index.com'}
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.asset_host = 'http://localhost:3000'
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   # if want to use s3 then
   # config.active_storage.service = :amazon
   config.active_storage.service = :local
 
+  config.active_job.queue_adapater = :sidekiq  
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
@@ -70,7 +82,7 @@ Rails.application.configure do
 
 
   # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
+  config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true

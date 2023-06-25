@@ -1,0 +1,38 @@
+.dockerignore
+.gitignore
+logs/
+tmp/
+
+##################################
+#
+# rest is COPIED from .gitignore
+#
+##################################
+
+# Ignore bundler config.
+/.bundle
+vendor/bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp
+.DS_Store
+
+# Ignore public uploads
+/public/uploads/*
+/public/c/*
+/public/i/*
+/public/assets/*
+
+
+# Development container gem storage location
+.gems
+
+.bin
+.bundleignore
+.byebug_history
+.rspec
+tmp
+log
+test

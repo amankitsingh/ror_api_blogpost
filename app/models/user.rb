@@ -142,13 +142,13 @@ class User < ApplicationRecord
 			if user.avatar.attached?
 				user.avatar.purge
 				user.avatar.attach(params[:avatar])
-				return {message: 'Avatar has been replaced', status: 200}
+				return {message: 'Avatar has been replaced successfully', status: 200}
 			else
 				user.avatar.attach(params[:avatar])
-				return {message: 'Avatar has been attached', status: 200}
+				return {message: 'Avatar has been attached successfully', status: 200}
 			end
 		rescue => e
-			return {error: 'there is some issue attaching', status: 400}
+			return {error: 'there is some issue attaching the avatar', status: 400}
 		end
 	end
 	
