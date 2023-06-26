@@ -126,21 +126,29 @@ class User < ApplicationRecord
 		if user.admin?
 			user = User.find(user_id)
 			if user.present?
-				if user.active? and status == "active"
-					return {error: 'User already active', status: 400}
-				else
-					case status
-					when "active"
-						user.active!
-					when "pending"
-						user.pending!
-					when "suspended"
-						user.suspended!
+				case status
+				when "active"
+					if user.status == "active"
+						return {error: 'User already active', status: 400}
 					else
-						return {error: 'Opps! Wrong status', status: 400}
+						user.active!
 					end
-					return searialized_response(user,nil)
+				when "pending"
+					if user.status == "pending"
+						return {error: 'User already pending', status: 400}
+					else
+						user.pending!
+					end
+				when "suspended"
+					if user.status == "suspended"
+						return {error: 'User already suspended', status: 400}
+					else
+						user.suspended!
+					end
+				else
+					return {error: 'Opps! Wrong status', status: 400}
 				end
+				return searialized_response(user,nil)
 			else
 				return {error: 'User not found', status: 400}
 			end
