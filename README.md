@@ -23,3 +23,6 @@ Things you may want to cover:
 
 * ...
 
+Postman collection documentation
+
+`https://documenter.getpostman.com/view/28161397/2s93z87PCa`
