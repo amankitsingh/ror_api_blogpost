@@ -107,7 +107,6 @@ class Article < ApplicationRecord
 				end
 				status = original_article.update!(attribute)
 				author_name = "#{user.first_name} #{user.last_name}"
-				byebug
 				if status
 					if tags.present?
 						original_article.reload
@@ -162,6 +161,7 @@ class Article < ApplicationRecord
 		begin
 			status = user.article.find_by(title: title)
 			if status.present?
+				status.article_tags.delete_all
 				status.delete
 				{message: "Article deleted", status: 202}
 			else
