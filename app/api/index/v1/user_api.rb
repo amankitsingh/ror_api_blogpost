@@ -13,21 +13,16 @@ module Index
 
 			desc "create a new user"
 			params do
-				requires :firstname, type: String
-				requires :lastname, type: String
-				requires :email, type: String
-				optional :avatar, type: File
+				requires :firstname, type: String, regexp: /\A[a-z]+\z/
+				requires :lastname, type: String, regexp: /\A[a-z]+\z/
+				requires :email, type: String, regexp: /\A\S+@\S+\.\S+\z/
 			end
 			post 'user/create' do
 				puts params.to_s
 				obj = User.create_user(params)
-				if obj.class == Hash
-					status 200
-					body obj
-				else
-					status 400
-					body obj
-				end
+				status obj[:status]
+				obj.delete(:status)
+				body obj
 			end
 
 			desc "attach avatar to user"
@@ -44,7 +39,7 @@ module Index
 
 			desc "confirm the user"
 			params do
-				requires :id, type: Integer
+				requires :id, type: Integer, regexp: /\A[0-9]+\z/
 			end
 			get 'user/confirm/:id' do
 				puts params.to_s
@@ -60,8 +55,8 @@ module Index
 
 			desc "recover the user"
 			params do
-				requires :name, type: String
-				requires :email, type: String
+				requires :name, type: String, regexp: /\A[a-z]+\z/
+				requires :email, type: String, regexp: /\A\S+@\S+\.\S+\z/
 				requires :last_remembered_api_key, type: String
 			end
 			post 'user/recover' do
@@ -78,7 +73,7 @@ module Index
 
 			desc "admin ban the user"
 			params do
-				requires :id, type: Integer
+				requires :id, type: Integer, regexp: /\A[0-9]+\z/
 			end
 			get 'admin/user/ban/:id' do
 				puts params.to_s
@@ -94,7 +89,7 @@ module Index
 
 			desc "admin status the user"
 			params do
-				requires :id, type: Integer
+				requires :id, type: Integer, regexp: /\A[0-9]+\z/
 			end
 			get 'admin/user/status/:id' do
 				puts params.to_s
@@ -110,8 +105,8 @@ module Index
 
 			desc "admin change the user status"
 			params do
-				requires :id, type: Integer
-				requires :status, type: String
+				requires :id, type: Integer, regexp: /\A[0-9]+\z/
+				requires :status, type: String, regexp: /\A[a-z]+\z/
 			end
 			patch 'admin/user/:id/:status' do
 				puts params.to_s

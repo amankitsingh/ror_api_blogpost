@@ -50,10 +50,11 @@ class User < ApplicationRecord
 
 	def self.searialized_response(user, api_secret)
 		result = {}
-		result["User_details"]= user
+		result[:User_details]= user
 		if api_secret.present?
-			result["Api_details"] = api_secret
+			result[:Api_details] = api_secret
 		end
+		result[:status] = 200
 		return result
 	end
 

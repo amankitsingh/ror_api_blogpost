@@ -59,7 +59,6 @@ class Comment < ApplicationRecord
 		comment_author = params[:comment_author]
 		rating = params[:rating] == "good" ? 1 : -1
 		begin
-			# byebug
 			article = Article.joins(:comments, :user).where(title: title).where("users.first_name = ?", comment_author.split(" ").first).take
 			if article.present?
 				if article.comments.present? and rating == 1 and IndexRedis.get_comment_array_counter(article.id, user.id, rating)
