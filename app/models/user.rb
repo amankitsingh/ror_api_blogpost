@@ -13,8 +13,8 @@ class User < ApplicationRecord
 	after_create :send_confirmation_email
 
 	enum role: {
-		'Admin': 1,
-		'User': 2
+		'admin': 1,
+		'user': 2
 	}
 
 	enum status:{
@@ -38,7 +38,7 @@ class User < ApplicationRecord
 		lastname = params[:lastname].downcase
 		email = params[:email].downcase
 		begin
-			user = User.create!(first_name: firstname, last_name: lastname, email: email, encrypted_password: SecureRandom.hex(10), role: "User")
+			user = User.create!(first_name: firstname, last_name: lastname, email: email, encrypted_password: SecureRandom.hex(10), role: "user")
 			if user
 				api_secret = ApiSecret.create!(secret: SecureRandom.hex, description: Faker::Markdown.emphasis, user_id: user.id)
 			end
@@ -93,7 +93,7 @@ class User < ApplicationRecord
 	end
 
 	def self.admin_ban_user(user, ban_id)
-		if user.Admin?
+		if user.admin?
 			user = User.find(ban_id)
 			if user.present?
 				user.suspended!
@@ -107,7 +107,7 @@ class User < ApplicationRecord
 	end
 
 	def self.admin_status_user(user, status_id)
-		if user.Admin?
+		if user.admin?
 			user = User.find(status_id)
 			if user.present?
 				return searialized_response(user,nil)
@@ -120,7 +120,7 @@ class User < ApplicationRecord
 	end
 
 	def self.admin_activate_user(user, activete_id)
-		if user.Admin?
+		if user.admin?
 			user = User.find(activete_id)
 			if user.present?
 				if user.active?

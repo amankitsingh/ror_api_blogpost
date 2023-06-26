@@ -1,12 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  database: "rails_development"
-  username: "index_development"
-  password: "CiYQ0gzWnPNgihjwj4t"
-  port: '5432'
-  host: "database"
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: index_development
+  username: index_development
+  password: letmein
+  host: database
+  pool: 5
   timeout: 5000
 
 development:

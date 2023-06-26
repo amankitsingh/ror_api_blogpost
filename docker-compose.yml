@@ -1,5 +1,24 @@
 version: '3.9'
 services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      DB_HOST: database
+      POSTGRES_USER: index_development
+      POSTGRES_PASSWORD: letmein
+      POSTGRES_DB: index_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
   app: 
     build:
       context: .
@@ -13,25 +32,10 @@ services:
       - .:/app
     environment:
       RAILS_ENV: development
-
-  redis:
-    image: redis:latest
-    ports:
-      - '6379:6379'
-    volumes:
-      - redis_data:/data
-  
-  database:
-    image: postgres:latest
-    restart: always
-    environment:
+      DB_HOST: database
       POSTGRES_USER: index_development
-      POSTGRES_PASSWORD: CiYQ0gzWnPNgihjwj4t
-      POSTGRES_DB: rails_development
-    volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
+      POSTGRES_PASSWORD: letmein
+      POSTGRES_DB: index_development
 volumes:
   redis_data:
-  db_data:
+  postgres_data: {}

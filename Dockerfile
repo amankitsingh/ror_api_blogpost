@@ -4,12 +4,12 @@ FROM ruby:3.0.2
 ENV BUNDLER_VERSION=2.0.2
 
 # Install dependencies for PostgreSQL
-RUN apt-get update \
-    && apt-get install -y postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq \
+    && apt-get install -y  build-essential postgresql-client
+    # && rm -rf /var/lib/apt/lists/*
 		
 # Set environment variables for database configuration
-ENV DATABASE_URL="postgresql://postgres@db:5432/index_developement"
+# ENV DATABASE_URL="postgresql://postgres@db:5432/index_developement"
 
 # Set the working directory in the container
 WORKDIR /app
