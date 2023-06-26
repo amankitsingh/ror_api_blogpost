@@ -19,7 +19,7 @@ class Article < ApplicationRecord
 	def self.create_article(user, params)
 		params[:published] = params[:publish]
 		params.delete(:publish)
-		params[:category] = Category.find_by(name: params[:category])
+		params[:category] = Category.find_by(name: params[:category].downcase)
 		params[:user_id] = user.id
 		begin
 			art = [Article.create!(params)]

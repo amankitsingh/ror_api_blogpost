@@ -14,6 +14,7 @@ class Comment < ApplicationRecord
 					return {error: 'You have already commented on this article', status: 400}
 				end
 				comment = Comment.create!(user_id: user.id, value: article_comment_by_user, article_id: article.id, comment_score: 1)
+				comment.article.update(comments_count: comment.article.comments_count + 1)
 				if comment
 					return searialized_response(article, comment)
 				else
