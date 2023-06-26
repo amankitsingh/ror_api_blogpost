@@ -31,12 +31,12 @@ class Comment < ApplicationRecord
 
 	def self.view_all_comments(user, params)
 		page = params[:page].present? ? params[:page].to_i : 1
-		per_page = params[:per_page].present? ? params[:page].to_i : 10
+		per_page = params[:per_page].present? ? params[:per_page].to_i : 25
 		article = 
 		if params[:title].present?
 			Article.includes(:comments, :user).where(title: params[:title], published: true).order("comments.comment_score desc").page(page).per(per_page)
 		else
-			Article.includes(:comments, :user).where(published: true).order("comments.comment_score desc").page(page).per(per_page)
+			Article.includes(:comments, :user).where("users.id =?", user.id).order("comments.comment_score desc").page(page).per(per_page)
 		end
 		if article.present?
 			result = {}

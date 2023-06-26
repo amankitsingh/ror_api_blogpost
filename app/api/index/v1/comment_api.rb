@@ -17,10 +17,9 @@ module Index
 				body obj
 			end
 
-			desc 'get all comment on specific userds article'
+			desc 'get all comment on specific user article'
 			params do
-				optional :title, type: String
-				optional :per, type: Integer
+				optional :per_page, type: Integer
 				optional :page, type: Integer
 			end
 			get 'comment/view' do

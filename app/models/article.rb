@@ -60,6 +60,8 @@ class Article < ApplicationRecord
 		articles =
 		if params[:id].present?
 			Article.where(user_id: params[:id], published: true)
+		elsif params[:published].present?
+			Article.where(published: params[:published])
 		else
 			Article.all
 		end
@@ -74,13 +76,13 @@ class Article < ApplicationRecord
 	def self.create_article_response(articles, author_name)
 		article_json = {}
 		articles.each_with_index do |article, index|
-			author_name = "#{article.user.first_name} #{article.user.last_name}" unless author_name.present?
+			author_name = "#{article.user.try(:first_name)} #{article.user.try(:last_name)}" unless author_name.present?
 			article_json[index+1] = {
 				"Title": article.title,
 				"Description": article.description,
 				"Comments": article.comments_count,
 				"Published": article.published,
-				"Author": author_name.present? ? author_name : "#{article.user.first_name} #{article.user.last_name}",
+				"Author": author_name,
 				"Created on": article.created_at
 			}
 		end
@@ -127,7 +129,7 @@ class Article < ApplicationRecord
 	def self.search_article(params)
 		begin
 			page = params[:page].present? ? params[:page].to_i : 1
-			per_page = params[:per_page].present? ? params[:page].to_i : 10
+			per_page = params[:per_page].present? ? params[:per_page].to_i : 10
 			searchtext = params[:searchtext]
 			article = Article.search_articles(searchtext)
 			if article.present?
@@ -153,7 +155,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.paginated_response(article, page, per_page)
-		create_article_response(article.page(page).per(per_page), nil)
+		self.create_article_response(article.page(page).per(per_page), nil)
 	end
 	
 
