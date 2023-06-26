@@ -36,7 +36,7 @@ seeder.create_if_none(User) do
 		end
 		puts "Admin User created" if User.where(role: "admin").present?
 
-		4.times do
+		9999.times do
 			begin
 				user = User.create!(
 					first_name: Faker::Name.first_name.downcase,
@@ -79,7 +79,7 @@ seeder.create_if_none(Article) do
 	category = Category.all
 	tag = Tag.all
 	user = User.all.pluck(:id)
-	100.times do
+	20000.times do
 		begin
 			Article.create!(
 				title: Faker::Lorem.sentence.downcase,
