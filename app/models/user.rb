@@ -49,9 +49,12 @@ class User < ApplicationRecord
 	end
 
 	def self.searialized_response(user, api_secret)
-		{
-			"User_details": user
-		}
+		result = {}
+		result["User_details"]= user
+		if api_secret.present?
+			result["Api_details"] = api_secret
+		end
+		return result
 	end
 
 	def self.confirm_user(confirm_id, present_user)
@@ -73,15 +76,15 @@ class User < ApplicationRecord
 		first_name = params[:name].downcase
 		email = params[:email].downcase
 		last_remembered_api_key = params[:last_remembered_api_key].downcase
-		user = User.where("first_name LIKE ?", "%#{first_name}%").where(email: email)
+		user = User.includes(:api_secrets).where("first_name LIKE ?", "%#{first_name}%").where(email: email).last
 		
 		if user.present?
-			return {"User_details": user}
+			return searialized_response(user, user.api_secrets)
 		else
 			api_secret = ApiSecret.find_by(secret: last_remembered_api_key)
 			if api_secret.present?
 				if api_secret.user.email == email || [first_name].include?(api_secret.user.first_name)
-					return {"User_details": api_secret.user, "Api_details": api_secret}
+					return searialized_response(api_secret.user, api_secret)
 				else
 					return {error: 'User not found', status: 400}
 				end
@@ -94,7 +97,7 @@ class User < ApplicationRecord
 
 	def self.admin_ban_user(user, ban_id)
 		if user.admin?
-			user = User.find(ban_id)
+			user = User.where(id: ban_id).take
 			if user.present?
 				user.suspended!
 			else
@@ -108,9 +111,9 @@ class User < ApplicationRecord
 
 	def self.admin_status_user(user, status_id)
 		if user.admin?
-			user = User.find(status_id)
+			user = User.where(id: status_id).take
 			if user.present?
-				return searialized_response(user,nil)
+				return searialized_response(user.status, nil)
 			else
 				return {error: 'User not found', status: 400}
 			end
@@ -151,5 +154,23 @@ class User < ApplicationRecord
 			return {error: 'there is some issue attaching the avatar', status: 400}
 		end
 	end
+
+	def self.admin_get_all_user(params)
+		if params.present?
+			puts params
+		end
+		users = User.includes(:api_secrets).where(params).all.order(id: :asc)
+		result = {}
+		if users.present?
+			users.each_with_index do |user, index|
+				result[user.id] = searialized_response(user, user.api_secrets)
+			end
+			result[:status] = 200
+		else
+			return {error: 'No data found', status: 400}
+		end
+		return result
+	end
+	
 	
 end

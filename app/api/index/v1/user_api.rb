@@ -124,6 +124,14 @@ module Index
 				end
 			end
 
+			desc 'admin get all user details'
+			get 'admin/user/list' do
+				obj = User.admin_get_all_user(params)
+				status obj[:status]
+				obj.delete(:status)
+				body obj
+			end
+
 		end
 	end
 end
