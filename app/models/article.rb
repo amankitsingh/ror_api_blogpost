@@ -164,9 +164,13 @@ class Article < ApplicationRecord
 				when 1
 					article.versions.last
 				when 2
-					article.versions.second					
+					article.versions.second
+				when 3
+					article.versions.third	
+				when 4
+					article.versions.fourth					
 				else
-					article.versions.third					
+					article.versions.fifth					
 				end
 				# Rollback the article to the last version
 				if last_version.present?
