@@ -66,7 +66,7 @@ module Index
 				requires :original_article_title, type: String
 				requires :new_article_changes, type: Hash
 			end
-			post 'article/edit' do
+			put 'article/edit' do
 				obj = Article.edit_article(@user, params)				
 				status obj[:status]
 				body obj

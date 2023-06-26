@@ -98,10 +98,22 @@ class Article < ApplicationRecord
 				else
 					attribute["published_at"] = nil
 				end
+				if params[:new_article_changes][:category].present?
+					attribute[:category] = Category.find_by(name: params[:new_article_changes][:category])
+				end
+				if params[:new_article_changes][:tags].present?
+					tags = Tag.where(name: params[:new_article_changes][:tags])
+					attribute.delete(:tags)
+				end
 				status = original_article.update!(attribute)
 				author_name = "#{user.first_name} #{user.last_name}"
+				byebug
 				if status
-					article = [original_article.reload]
+					if tags.present?
+						original_article.reload
+						original_article.tags << tags
+					end
+					article = [original_article]
 					return self.create_article_response(article, author_name)
 				end
 			else
