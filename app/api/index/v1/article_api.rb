@@ -7,7 +7,7 @@ module Index
 			desc 'search article'
 			params do
 				requires :searchtext, type: String
-				optional :per, type: Integer
+				optional :per_page, type: Integer
 				optional :page, type: Integer
 			end
 			get 'articles/search' do
@@ -19,6 +19,8 @@ module Index
 			desc 'get the all article details'
 			params do
 				optional :id, type: Integer
+				optional :per_page, type: Integer
+				optional :page, type: Integer
 			end
 			get 'articles' do
 				obj = Article.get_all_articles(@user,params)

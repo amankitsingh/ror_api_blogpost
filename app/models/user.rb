@@ -177,7 +177,9 @@ class User < ApplicationRecord
 		if params.present?
 			puts params
 		end
-		users = User.includes(:api_secrets).where(params).all.order(id: :asc)
+		page = params[:page].present? ? params[:page].to_i : 1
+		per_page = params[:per_page].present? ? params[:per_page].to_i : 10
+		users = User.includes(:api_secrets).all.order(id: :asc).page(page).per(per_page)
 		result = {}
 		if users.present?
 			users.each_with_index do |user, index|

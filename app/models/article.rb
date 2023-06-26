@@ -57,13 +57,15 @@ class Article < ApplicationRecord
 	end
 
 	def self.get_all_articles(user, params)
+		page = params[:page].present? ? params[:page].to_i : 1
+		per_page = params[:per_page].present? ? params[:per_page].to_i : 10
 		articles =
 		if params[:id].present?
-			Article.where(user_id: params[:id], published: true)
+			Article.where(user_id: params[:id], published: true).page(page).per(per_page)
 		elsif params[:published].present?
-			Article.where(published: params[:published])
+			Article.where(published: params[:published]).page(page).per(per_page)
 		else
-			Article.all
+			Article.all.page(page).per(per_page)
 		end
 		author_name = "#{user.first_name} #{user.last_name}"
 		if articles.present?

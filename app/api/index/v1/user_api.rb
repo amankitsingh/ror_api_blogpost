@@ -121,6 +121,10 @@ module Index
 			end
 
 			desc 'admin get all user details'
+			params do
+				optional :per_page, type: Integer
+				optional :page, type: Integer
+			end
 			get 'admin/user/list' do
 				obj = User.admin_get_all_user(params)
 				status obj[:status]
