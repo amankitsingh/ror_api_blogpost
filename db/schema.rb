@@ -69,7 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_25_141836) do
     t.datetime "last_comment_at", precision: nil, default: "2017-01-01 05:00:00"
     t.boolean "published", default: false
     t.datetime "published_at", precision: nil
-    t.boolean "show_comments", default: true
+    t.boolean "show_comments", default: false
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

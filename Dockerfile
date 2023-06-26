@@ -1,7 +1,7 @@
 # Use the official Ruby image as the base image
 FROM ruby:3.0.2
 
-ENV BUNDLER_VERSION=2.0.2
+ENV BUNDLER_VERSION=2.4.14
 
 # Install dependencies for PostgreSQL
 RUN apt-get update -qq \
