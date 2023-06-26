@@ -9,7 +9,8 @@ gem "pg_search", "~> 2.3.6" # PgSearch builds Active Record named scopes that ta
 gem "puma", "~> 5.6.4" # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server
 gem 'redis', '~> 5.0', '>= 5.0.6' # Redis ruby client , Use Redis adapter to run Action Cable in production
 gem "redis-actionpack", "~> 5.3.0" # Redis session store for ActionPack. Used for storing the Rails session in Redis.
-gem "sidekiq", "~> 6.1.3" # Sidekiq is used to process background jobs with the help of Redis
+# gem "sidekiq", "~> 6.1.3" # Sidekiq is used to process background jobs with the help of Redis
+gem 'sidekiq', '~> 6.1'
 # gem "strong_migrations", "~> 1.2" # Catch unsafe migrations - optional
 gem "warning", "~> 1.3" # Adds custom processing for warnings, including the ability to ignore specific warning messages
 gem "image_processing", "~> 1.2" # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
