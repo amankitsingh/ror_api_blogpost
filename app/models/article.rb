@@ -36,13 +36,12 @@ class Article < ApplicationRecord
 	end
 
 	def self.get_one_article(user, title)
-		# TODO - join comments
 		one_article = user.article.where(title: title, published: true).take
 		if one_article.present?
 			return {
 				"Title": one_article.title,
 				"Description": one_article.description,
-				"Comments": {}
+				"Comments": one_article.comments.last
 			}
 		else
 			{error: 'Not Articles Found', status: 400}

@@ -58,16 +58,23 @@ class Comment < ApplicationRecord
 		comment_author = params[:comment_author]
 		rating = params[:rating] == "good" ? 1 : -1
 		begin
+			# byebug
 			article = Article.joins(:comments, :user).where(title: title).where("users.first_name = ?", comment_author.split(" ").first).take
 			if article.present?
-				if article.comments.present?
-					article.comments.last.update(comment_score: article.comments.last.comment_score + rating)
-					return view_all_comments(article.user, params)
+				if article.comments.present? and rating == 1 and IndexRedis.get_comment_array_counter(article.id, user.id, rating)
+					return {error: 'You have already rated this article', status: 400}
 				else
-					{error: 'You have already rated this article', status: 400}
+					if rating == -1 and IndexRedis.get_comment_array_counter(article.id, user.id, rating)
+						return {error: 'You have already rated this article', status: 400}
+					else
+						article.comments.last.update(comment_score: article.comments.last.comment_score + rating)
+					end
+					IndexRedis.insert_comment_array_counter(article.id, user.id, rating)
+					IndexRedis.remove_comment_array_counter(article.id, user.id, rating)
+					return view_all_comments(article.user, params)
 				end
 			else
-				{error: 'Not Article Found', status: 400}
+				return {error: 'Not Article Found', status: 400}
 			end		
 		rescue => e
 			message = e.message.to_s
