@@ -7,7 +7,7 @@ class Comment < ApplicationRecord
 		article_title = params[:title]
 		article_comment_by_user = params[:comment]
 		begin
-			article = Article.find_by(title: article_title)
+			article = Article.find_by(title: article_title, published: true)
 			if article.present?
 				comment_pre_check = Comment.where(user_id: user.id, article_id: article.id)
 				if comment_pre_check.present?
@@ -33,9 +33,9 @@ class Comment < ApplicationRecord
 		per_page = params[:per_page].present? ? params[:page].to_i : 10
 		article = 
 		if params[:title].present?
-			Article.includes(:comments, :user).where(title: params[:title]).order("comments.comment_score desc").page(page).per(per_page)
+			Article.includes(:comments, :user).where(title: params[:title], published: true).order("comments.comment_score desc").page(page).per(per_page)
 		else
-			Article.includes(:comments, :user).order("comments.comment_score desc").page(page).per(per_page)
+			Article.includes(:comments, :user).where(published: true).order("comments.comment_score desc").page(page).per(per_page)
 		end
 		if article.present?
 			result = {}
