@@ -23,6 +23,5 @@ Things you may want to cover:
 
 * ...
 
-Postman collection documentation
 
-`https://documenter.getpostman.com/view/28161397/2s93z87PCa`
+<a href="https://documenter.getpostman.com/view/28161397/2s93z87PCa" target="_blank">Postman collection documentation</a>
