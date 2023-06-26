@@ -68,11 +68,11 @@ rails server
 
 ### Option 2
 
-1. Install docker and docker-compose
+Step 1. Install docker and docker-compose
 
 [Docker install documentation](https://docs.docker.com/engine/install/)
 
-2. Run the below commnad
+Step 2. Run the below commnad
 
 ```bash
 docker-compose up -d && docker-compose ps && docker-compose exec app bundle exec rake db:setup db:migrate
@@ -90,6 +90,12 @@ Sample output
     Article created 10000
 4. Creating Tags.
     Tags created 5
+```
+
+Step 3. Check the logs
+   
+```bash
+docker-compose logs
 ```
 
 
