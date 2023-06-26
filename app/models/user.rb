@@ -144,10 +144,10 @@ class User < ApplicationRecord
 		begin
 			if user.avatar.attached?
 				user.avatar.purge
-				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: 'avatar')
+				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: "avatar_#{SecureRandom.hex(4)}")
 				return {message: 'Avatar has been replaced successfully', status: 200}
 			else
-				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: 'avatar')
+				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: "avatar_#{SecureRandom.hex(4)}")
 				return {message: 'Avatar has been attached successfully', status: 200}
 			end
 		rescue => e

@@ -50,11 +50,12 @@ module Index
 
 			desc "attach cover to article"
 			params do
-				requires :cover, type: String
+				requires :cover, type: File
+				requires :article_title, type: String
 			end
-			post 'user/avatar' do
+			post 'article/cover' do
 				puts params.to_s
-				obj = Article.attach_cover(user, params)
+				obj = Article.attach_cover(@user, params)
 				status obj[:status]
 				obj.delete(:status)
 				body obj

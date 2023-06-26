@@ -193,14 +193,15 @@ class Article < ApplicationRecord
 		article_title = params[:article_title]
 		article_cover = params[:cover]
 		begin
-			article = Article.find_by(title: article_title)
+			article = Article.where(title: article_title, user_id: user.id)
 			if article.present?
+				article = article.take
 				if article.cover.attached?
 					article.cover.purge
-					article.cover.attach(article_cover)
+					article.cover.attach(io: File.open(params[:cover][:tempfile]), filename: "cover_#{SecureRandom.hex(4)}")
 					{message: "Article cover replaced", status: 202}
 				else
-					article.cover.attach(article_cover)
+					article.cover.attach(io: File.open(params[:cover][:tempfile]), filename: "cover_#{SecureRandom.hex(4)}")
 					{message: "Article cover attached", status: 202}
 				end
 			else
