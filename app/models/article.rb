@@ -49,11 +49,16 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.get_all_articles(user)
-		articles = user.article
+	def self.get_all_articles(user, params)
+		articles =
+		if params[:id].present?
+			Article.where(user_id: params[:id], published: true)
+		else
+			Article.all
+		end
 		author_name = "#{user.first_name} #{user.last_name}"
 		if articles.present?
-			return self.create_article_response(articles, author_name)
+			return self.create_article_response(articles, nil)
 		else
 			{error: 'Not Articles Found', status: 400}
 		end
@@ -68,7 +73,7 @@ class Article < ApplicationRecord
 				"Description": article.description,
 				"Comments": article.comments_count,
 				"Published": article.published,
-				"Author": author_name,
+				"Author": author_name.present? ? author_name : "#{article.user.first_name} #{article.user.last_name}",
 				"Created on": article.created_at
 			}
 		end

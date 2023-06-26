@@ -17,8 +17,11 @@ module Index
 			end
 			
 			desc 'get the all article details'
+			params do
+				optional :id, type: Integer
+			end
 			get 'articles' do
-				obj = Article.get_all_articles(@user)				
+				obj = Article.get_all_articles(@user,params)
 				status obj[:status]
 				body obj
 			end

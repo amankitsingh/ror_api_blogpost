@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+	include ActiveStorage::Blob::Analyzable
 
 	has_many :api_secrets, dependent: :delete_all
 	has_many :article, dependent: :delete_all
@@ -144,10 +144,10 @@ class User < ApplicationRecord
 		begin
 			if user.avatar.attached?
 				user.avatar.purge
-				user.avatar.attach(params[:avatar])
+				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: 'avatar')
 				return {message: 'Avatar has been replaced successfully', status: 200}
 			else
-				user.avatar.attach(params[:avatar])
+				user.avatar.attach(io: File.open(params[:avatar][:tempfile]), filename: 'avatar')
 				return {message: 'Avatar has been attached successfully', status: 200}
 			end
 		rescue => e
