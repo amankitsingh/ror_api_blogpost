@@ -1,7 +1,5 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Index.dev assignment
 
 Things you may want to cover:
 
@@ -23,5 +21,7 @@ Things you may want to cover:
 
 * ...
 
+
+## API Reference
 
 <a href="https://documenter.getpostman.com/view/28161397/2s93z87PCa" target="_blank">Postman collection documentation</a>
