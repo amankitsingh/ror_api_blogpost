@@ -122,14 +122,23 @@ class User < ApplicationRecord
 		end
 	end
 
-	def self.admin_activate_user(user, activete_id)
+	def self.admin_user_status_change(user, user_id, status)
 		if user.admin?
-			user = User.find(activete_id)
+			user = User.find(user_id)
 			if user.present?
-				if user.active?
+				if user.active? and status == "active"
 					return {error: 'User already active', status: 400}
 				else
-					user.active!
+					case status
+					when "active"
+						user.active!
+					when "pending"
+						user.pending!
+					when "suspended"
+						user.suspended!
+					else
+						return {error: 'Opps! Wrong status', status: 400}
+					end
 					return searialized_response(user,nil)
 				end
 			else

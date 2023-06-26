@@ -18,6 +18,7 @@ class ApiSecret < ApplicationRecord
 
 		api_secret = ApiSecret.includes(:user).find_by(secret: api_key)
 
+		return unless api_secret
 		# guard against timing attacks
 		# see <https://www.slideshare.net/NickMalcolm/timing-attacks-and-ruby-on-rails>
 		secure_secret = ActiveSupport::SecurityUtils.secure_compare(api_secret.secret, api_key)

@@ -108,13 +108,14 @@ module Index
 				end
 			end
 
-			desc "admin activate the user"
+			desc "admin change the user status"
 			params do
 				requires :id, type: Integer
+				requires :status, type: String
 			end
-			get 'admin/user/activate/:id' do
+			patch 'admin/user/:id/:status' do
 				puts params.to_s
-				obj = User.admin_activate_user(@user,	params[:id])
+				obj = User.admin_user_status_change(@user,	params[:id], params[:status])
 				if obj.class == Hash
 					status 200
 					body obj

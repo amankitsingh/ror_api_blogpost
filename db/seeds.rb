@@ -36,7 +36,7 @@ seeder.create_if_none(User) do
 		end
 		puts "Admin User created" if User.where(role: "admin").present?
 
-		3.times do
+		4.times do
 			begin
 				user = User.create!(
 					first_name: Faker::Name.first_name.downcase,
@@ -57,49 +57,60 @@ seeder.create_if_none(User) do
 		puts "Other User created #{User.all.count - 1}"
 end
 
-# seeder.create_if_none(Category) do
-# 	10.times do
-# 		begin
-# 			Category.create(
-# 				name: Faker::Lorem.word
-# 			)
-# 		rescue => e
-# 			next
-# 		end
-# 	end
-# 	puts "Category Created #{Category.all.count}"
-# end
+seeder.create_if_none(Category) do
+	begin
+		Category.create(
+			name: "software"
+		)
+		Category.create(
+			name: "hardware"
+		)
+		Category.create(
+			name: "travel"
+		)
 
-# seeder.create_if_none(Tag) do
-# 	5.times do
-# 		begin
-# 			Tag.create(
-# 				name: Faker::Lorem.word
-# 			)
-# 		rescue => e
-# 			e.message
-# 		end
-# 	end
-# 	puts "Tags created #{Tag.all.count}"
-# end
+	rescue => e
+		puts e.message.to_s
+	end
+	puts "Category Created #{Category.all.count}"
+end
 
-# seeder.create_if_none(Article) do
-# 	category = Category.all.pluck(:name)
-# 	tag = Tag.all
-# 	user = User.all.pluck(:id)
-# 	100.times do
-# 		begin
-# 			Article.create!(
-# 				title: Faker::Lorem.sentence.downcase,
-# 				description: Faker::Lorem.paragraphs.join("\n\n"),
-# 				category: category.sample,
-# 				user_id: user.sample,
-# 				publish: [true,false].sample,
-# 				tags: tag.sample
-# 			)
-# 		rescue => e
-# 			puts e.message
-# 		end
-# 	end
-# 	puts "Article created #{Article.all.count}"
-# end
+seeder.create_if_none(Article) do
+	category = Category.all
+	tag = Tag.all
+	user = User.all.pluck(:id)
+	100.times do
+		begin
+			Article.create!(
+				title: Faker::Lorem.sentence.downcase,
+				description: Faker::Lorem.paragraphs.join("\n\n"),
+				category: category.sample,
+				user_id: user.sample,
+				published: [true,false].sample
+			)
+		rescue => e
+			puts e.message
+		end
+	end
+	puts "Article created #{Article.all.count}"
+end
+
+seeder.create_if_none(Tag) do
+	category = Category.all
+	articles = Article.all
+	5.times do
+		begin
+			Tag.create(
+				name: Faker::ProgrammingLanguage.name,
+				category: category.sample
+			)
+		rescue => e
+			puts e.message
+		end
+	end
+	tags = Tag.all
+	articles.each do |article|
+		article.tags << tags.sample
+	end
+	puts "Tags created #{Tag.all.count}"
+end
