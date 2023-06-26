@@ -17,12 +17,20 @@ class Article < ApplicationRecord
 									}
 
 	def self.create_article(user, params)
-		params[:published] = params[:publish]
-		params.delete(:publish)
-		params[:category] = Category.find_by(name: params[:category].downcase)
+		if params[:publish].present?
+			params[:published] = params[:publish] 
+			params.delete(:publish)
+		end
+		tags = nil
+		if params[:tags].present?
+			tags = Tag.find_by(name: params[:tags])
+			params.delete(:tags)
+		end
+		params[:category] = Category.find_by(name: params[:category].downcase) if params[:category].present?
 		params[:user_id] = user.id
 		begin
 			art = [Article.create!(params)]
+			art.first.tags << tags if tags.present?
 			author_name = "#{user.first_name} #{user.last_name}"
 			return self.create_article_response(art, author_name)
 		rescue => e
