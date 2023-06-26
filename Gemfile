@@ -7,7 +7,7 @@ gem "rails", "~> 7.0.4", ">= 7.0.4.1"
 gem "pg", "~> 1.4" # Pg is the Ruby interface to the PostgreSQL RDBMS
 gem "pg_search", "~> 2.3.6" # PgSearch builds Active Record named scopes that take advantage of PostgreSQL's full text search
 gem "puma", "~> 5.6.4" # Puma is a simple, fast, threaded, and highly concurrent HTTP 1.1 server
-gem "redis", "~> 4.7.1" # Redis ruby client , Use Redis adapter to run Action Cable in production
+gem 'redis', '~> 5.0', '>= 5.0.6' # Redis ruby client , Use Redis adapter to run Action Cable in production
 gem "redis-actionpack", "~> 5.3.0" # Redis session store for ActionPack. Used for storing the Rails session in Redis.
 gem "sidekiq", "~> 6.1.3" # Sidekiq is used to process background jobs with the help of Redis
 # gem "strong_migrations", "~> 1.2" # Catch unsafe migrations - optional

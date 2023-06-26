@@ -80,8 +80,8 @@ class User < ApplicationRecord
 		else
 			api_secret = ApiSecret.find_by(secret: last_remembered_api_key)
 			if api_secret.present?
-				if api_secret.user.email == email && [first_name].include?(api_secret.user.first_name)
-					return {"User_details": api_secret.user}
+				if api_secret.user.email == email || [first_name].include?(api_secret.user.first_name)
+					return {"User_details": api_secret.user, "Api_details": api_secret}
 				else
 					return {error: 'User not found', status: 400}
 				end
