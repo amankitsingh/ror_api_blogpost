@@ -1,7 +1,7 @@
 
 # Index Assignment
 
-Builing an Ror API app which cover the following:
+Building an RoR API app that cover the following:
 
 - User
     - Registration  
@@ -55,7 +55,8 @@ brew install redis
 ```
 
 ## Seeding database
-Next step is to load the data
+
+The next step is to load the data
 
 ```bash
 rails db:create db:migrate
@@ -72,12 +73,12 @@ Step 1. Install docker and docker-compose
 
 [Docker install documentation](https://docs.docker.com/engine/install/)
 
-Step 2. Run the below commnad
+Step 2. Run the below command
 
 ```bash
 docker-compose up -d && docker-compose ps && docker-compose exec app bundle exec rake db:setup db:migrate
 ```
-Note: This will install all the dependency, run the docker compose, create database, seed the database.
+Note: This will install all the dependencies, run the docker-compose, create a database, seed the database.
 
 Sample output
 ```bash
@@ -101,11 +102,11 @@ docker-compose logs
 
 If you have reached hear, voila. you have done it.
 
-`Enjoy the api!!!`
+`Enjoy the API!!!`
 
 ## API Reference
 
-Below is the api collection reference link, refer it and enjoy the api.
+Below is the API collection reference link, refer it and enjoy the API.
 
 [Postman collection documentation](https://documenter.getpostman.com/view/28161397/2s93z87PCa)
 
@@ -114,19 +115,24 @@ Below is the api collection reference link, refer it and enjoy the api.
 
 ## Debugging
 
-At any stage you wish to stop the executation and inspect the code run.
+At any point in time, you wish to stop the execution and inspect the code run.
 
-Step 1: simple put `byebug` in the function/code area.
+Step 1: Put `byebug` in the function/code area.
 
 Step 2: Attach your terminal to the container
 ```bash
-docker attach [container_id]
+docker attach <container_id>
 ```
 You may find your container_id by using: `docker container ls`
 
-At this point you should be able to see every input, output and errors from our running container.
+At this point, you should be able to see every input, output, and error from our running container.
 
 You can always detach from this Docker process by entering the escape sequence: `Ctrl+P then Ctrl+Q`
+
+Step 3: If you wish to access rails console or rails db from the terminal
+```bash
+docker-compose exec app rails console/db
+```
 
 ## Support
 
