@@ -1,0 +1,774 @@
+{
+	"info": {
+		"_postman_id": "3a17ea27-7206-4f4a-9277-56a251b0bbb2",
+		"name": "Index",
+		"description": "## 🔖 **How to use this template**\n\n#### Modifying the data\n\nYou can find the data array in the collection variables section, which you can navigate to by clicking on the collection's name in the sidebar and then selecting the Variables tab.\n\nThe data array follows this structure:\n\n``` json\n[\n    {\n        \"username\": \"\",\n        \"name\": \"\",\n        \"role\": \"\"\n    },\n    ...\n]\n\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28161397"
+	},
+	"item": [
+		{
+			"name": "Admin User",
+			"item": [
+				{
+					"name": "One User status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/admin/user/status/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"user",
+								"status",
+								"3"
+							]
+						},
+						"description": "> This endpoint will return the latest status of the user  \n \n  \n\n`id` (required): The ID of the user to update."
+					},
+					"response": []
+				},
+				{
+					"name": "Change user status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/admin/user/3/active",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"user",
+								"3",
+								"active"
+							]
+						},
+						"description": "> Updates the status of a specific user \n  \n\nRequest Parameters:\n\n`id` (required): The ID of the user to update.\n\n`status` (required) with the desired status value (e.g., \"active\", \"pending\", \"suspended\")."
+					},
+					"response": []
+				},
+				{
+					"name": "All user details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/admin/user/list",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"user",
+								"list"
+							]
+						},
+						"description": "> Retrieves a list of all users in the system. \n  \n\nOptional paramters:\n\n- `page`: default 1\n- `per_page`: default 10"
+					},
+					"response": []
+				}
+			],
+			"description": "<blockquote><b>This collection provides endpoints for administrators only to manage user statuses and get details of user in the system.</b></blockquote>"
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get your details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/user/details",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"details"
+							]
+						},
+						"description": "> Retrieves the details of a current user, based on the `api key`."
+					},
+					"response": []
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"ankit\",\n    \"lastname\": \"singh\",\n    \"email\": \"ankitsingh@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"create"
+							]
+						},
+						"description": "> Creates a new user. \n  \n\nRequest Parameters:\n\n- `name` (required): The name of the user.\n- `email` (required): The email address of the user.\n- `password` (required): The password for the user.\n    \n\n> Api key will be automatically generated for the new user"
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm New User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/user/confirm/5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"confirm",
+								"5"
+							]
+						},
+						"description": "> Authenticates the user based on provided credentials aka `api key` and `user id` assosiated to the `api key` should match to confirm the user. \n  \n> If successfull then it will activate the user else remains pending"
+					},
+					"response": []
+				},
+				{
+					"name": "Recover user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ankit\",\n    \"email\": \"ankitsingh@gmail.com\",\n    \"last_remembered_api_key\": \"986408086bbb4e2ba1ae5d932b32fa77\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/recover",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"recover"
+							]
+						},
+						"description": "> Recover a user based on the (`username` and `email)` or `api key` . Any of these parameter to match to get the user details"
+					},
+					"response": []
+				},
+				{
+					"name": "Attach avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/Users/ankit/Desktop/aws.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/avatar",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"avatar"
+							]
+						},
+						"description": "> Attaches an avatar image for a specific user, user retrieved from api key provided. Avatar can be replaced N number of times."
+					},
+					"response": []
+				}
+			],
+			"description": "> This collection provides endpoints for user-related operations such as user details, user creation, user authentication, user recovery, and avatar attachment."
+		},
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "Create Article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Testing5\",\n    \"description\": \"Many man army web stack.\",\n    \"category\": \"software\",\n    \"tags\": \"A++\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/article/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"create"
+							]
+						},
+						"description": "> Creates a new article. \n  \n\nRequest Parameters:\n\n- `title` (required): The title of the article.\n- `description` (required): The content of the article.\n- `category` (required): The category to which the article belongs.\n- `publish` (optional): `true` or `false`.\n- `tags` (optional): An array of tags associated with the article."
+					},
+					"response": []
+				},
+				{
+					"name": "Get articles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/articles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							]
+						},
+						"description": "> Retrieves all articles for a specific user, based on `api key`. \n  \n\nOptional Search:\n\n- `id`\n- `published`: either true or false\n- `page`: default 1\n- `per_page`: default 10"
+					},
+					"response": []
+				},
+				{
+					"name": "Get one article with comments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Testing13\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/article",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article"
+							]
+						},
+						"description": "> Retrieves a specific article with its associated comments. \n  \n\nRequest Parameters:\n\n- `title` (required): The title of the article to fetch."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete article",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/article/Testing1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"Testing1"
+							]
+						},
+						"description": "> Deletes a specific article. \n  \n\nRequest Parameters:\n\n- `title` (required): The title of the article to delete."
+					},
+					"response": []
+				},
+				{
+					"name": "Edit article",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"original_article_title\": \"Testing13\",\n    \"new_article_changes\":{\n        \"title\": \"Testing6\",\n        \"description\": \"Ohh lala!! ohhhhhhhhhhhhh\",\n        \"published\": true,\n        \"category\": \"software\",\n        \"tags\": [\"A++\",\"Ruby\"]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/article/edit",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"edit"
+							]
+						},
+						"description": "> Edits a specific article. \n  \n\n- Request Body:\n    - `original_article_title` (required): The find the article.\n    - `new_article_changes` (required): Json containing new details\n        - `title` (required): The updated title of the article.\n        - `description` (requried): The updated cotent of the article.\n        - `category` (optional): The category to which the article belongs.\n        - `published`(optional): To show keep it private or not\n        - `tags`(optional): An array of tags associated with the article."
+					},
+					"response": []
+				},
+				{
+					"name": "Roll back last article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"article_title\": \"Testing6\",\n    \"step_of_rollback\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/article/rollback",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"rollback"
+							]
+						},
+						"description": "> Rolls back an article to one of its last 5 versions. \n  \n\nRequest Parameters:\n\n- `article_title` (required): The title of the article to roll back.\n- `step_of_rollback` (required): The version number to which the article should be rolled back (e.g., 1, 2, 3, 4, 5)."
+					},
+					"response": []
+				},
+				{
+					"name": "search article",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/articles/search?searchtext=A++&page=3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"search"
+							],
+							"query": [
+								{
+									"key": "searchtext",
+									"value": "A++"
+								},
+								{
+									"key": "page",
+									"value": "3"
+								}
+							]
+						},
+						"description": "> Searches articles based on specified criteria. \n  \n\nRequest Parameters:\n\nsearchtext =\n\n- `author` (optional): The author name to match.\n- `category` (optional): The category name to match.\n- `tags` (optional): The tags to match.\n- `title` (optional): The words to match in the article title.\n- `created_at` (optional): The specific date to match for article creation.\n- `page` (optional): default 1\n- `per_page` (optional): default 10"
+					},
+					"response": []
+				},
+				{
+					"name": "Attach cover",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "cover",
+									"type": "file",
+									"src": "/Users/ankit/Desktop/aws.png"
+								},
+								{
+									"key": "article_title",
+									"value": "Testing2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/article/cover",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"article",
+								"cover"
+							]
+						},
+						"description": "> Attaches an cover image for a specific article. Cover can be replaced N number of times. \n  \n\nRequire parameters:\n\n- `cover` (required): cover file to attach\n- `article_title` (required): The title of the article to attach the cover to."
+					},
+					"response": []
+				}
+			],
+			"description": "> This collection provides endpoints for article-related operations such as article creation, retrieving user-specific articles, retrieving an article with comments, deleting and editing articles, rolling back to previous versions, and searching articles based on various criteria."
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"sit ex inventore eum.\",\n    \"comment\": \"What a brilliant pieace of art\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/comment/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"create"
+							]
+						},
+						"description": "> Creates a new comment on published article \n  \n\nRequest Body:\n\n- `title` (required): The title of the comment.\n- `comment` (required): The comment of the comment."
+					},
+					"response": []
+				},
+				{
+					"name": "View all Comment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/comment/view?page=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"view"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "> Retrieves comments based on the users article. \n  \n\nOptional Parameter:\n\n- `page` : Default 1\n- `per_age`: Default 10"
+					},
+					"response": []
+				},
+				{
+					"name": "View Comment by title",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"sit ex inventore eum.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/comment/view",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"view"
+							]
+						},
+						"description": "> Retrieves comments based on the specified title. \n  \n\nRequest Parameters:\n\n- `title` (required): The title of the article to fetch."
+					},
+					"response": []
+				},
+				{
+					"name": "Rate article",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Testing2\",\n    \"comment_author\": \"jana shields\",\n    \"rating\": \"bad\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/comment/rate",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comment",
+								"rate"
+							]
+						},
+						"description": "> Rates a specific comment. \n  \n\nRequest Body:\n\n- `title` (required): The title of the article to put rating on\n- `comment_author` (required): The author whose comment is to be rated\n- `rating` (required): The rating value to assign to the comment (e.g., good or bad)"
+					},
+					"response": []
+				}
+			],
+			"description": "> This collection provides endpoints for comment-related operations such as creating a comment, viewing comments by title, and rating comments."
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/category",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"category"
+							]
+						},
+						"description": "Retrieves all categories."
+					},
+					"response": []
+				},
+				{
+					"name": "Get all articles under a category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/category/travel",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								"travel"
+							]
+						},
+						"description": "> Retrieves articles under a specific category. \n  \n\nRequest Parameters:\n\n- `name` (required): The name of the category."
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"fun\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/category",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"category"
+							]
+						},
+						"description": "> Creates a new category \n  \n\nRequest Body:\n\n- `name` (required): The name of the category."
+					},
+					"response": []
+				}
+			],
+			"description": "> This collection provides endpoints for category-related operations such as retrieving all categories, getting articles under a category, and creating a new category."
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "Get all tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/tags",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						},
+						"description": "> Retrieves all tags."
+					},
+					"response": []
+				},
+				{
+					"name": "Create tag",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"article_name\": \"Testing2\",\n    \"name\": \"ruby\",\n    \"category\": \"fun\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/tag",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"tag"
+							]
+						},
+						"description": "> Creates a new tag. \n  \n\nRequest Body:\n\n- `article_name` (required): The name of the article to associate the tag.\n- `name` (required): Tag name\n- `category` (required): Category of the tag"
+					},
+					"response": []
+				},
+				{
+					"name": "Article under tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/tag/A++",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"tag",
+								"A++"
+							]
+						},
+						"description": "> Retrieves articles under a specific tag. \n  \n\nRequest Parameters:\n\n- `name` (required): The name of the tag"
+					},
+					"response": []
+				}
+			],
+			"description": "> This collection provides endpoints for category-related operations such as retrieving all tags, creating a new tag, and getting all articles under a tag."
+		},
+		{
+			"name": "Start Here",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/welcome-greeting",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"welcome-greeting"
+					]
+				},
+				"description": "Welcome screen"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "secret",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "localhost:3000",
+			"type": "string"
+		}
+	]
+}
