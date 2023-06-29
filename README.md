@@ -76,7 +76,7 @@ Step 1. Install docker and docker-compose
 Step 2. Run the below command
 
 ```bash
-docker-compose up -d && docker-compose ps && docker-compose exec app bundle exec rake db:setup db:migrate
+docker-compose up -d && docker-compose ps && docker-compose exec app bundle exec rake db:setup 
 ```
 Note: This will install all the dependencies, run the docker-compose, create a database, seed the database.
 
@@ -133,8 +133,3 @@ Step 3: If you wish to access rails console or rails db from the terminal
 ```bash
 docker-compose exec app rails console/db
 ```
-
-## Support
-
-For support, email theankitsingh1999@gmail.com
-
