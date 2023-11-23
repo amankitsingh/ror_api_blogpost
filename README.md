@@ -1,5 +1,5 @@
 
-# Index Assignment
+# Api BlogPosting 
 
 Building an RoR API app that cover the following:
 
